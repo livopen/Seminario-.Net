@@ -3,4 +3,4 @@ using SGE.Dominio.Expedientes;
 
 namespace SGE.Aplicacion.Expedientes;
 
-public record AgregarExpedienteRequest(string Caratula, int IdUsuario);
+public record AgregarExpedienteRequest(string Caratula, Guid IdUsuario);

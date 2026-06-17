@@ -63,22 +63,36 @@ public class Expediente
         }
     }
 
-    public bool ActualizarEstadoAutomatico (EtiquetaTramite? etiqueta, Guid idUsuario)
-    {
-        EstadoExpediente estadoActual = Estado;
-        if (idUsuario == Guid.Empty)
-            throw new DominioExcepcion("Usuario invalido");
-        if (etiqueta.Equals("Escritoresentado")) 
-            return false;
-        if (etiqueta.Equals("PaseAEstudio"))
-            this.Estado = EstadoExpediente.ParaResolver;
-        if (etiqueta.Equals("PaseAlAchivo"))
-            this.Estado = EstadoExpediente.ConResolucion;
-        if (etiqueta.Equals("Finalizado"))
-            this.Estado = EstadoExpediente.RecienIniciado;
-        return (estadoActual!=this.Estado);
-    }
+ public bool ActualizarEstadoAutomatico(EtiquetaTramite? etiqueta, Guid idUsuario)
+{
+    EstadoExpediente estadoActual = this.Estado;
+    if (idUsuario == Guid.Empty)
+        throw new DominioExcepcion("Usuario invalido");
 
+    if (etiqueta == null) return false;
+
+    if (etiqueta == EtiquetaTramite.EscritoPresentado)
+    {
+        // se mantiene igual
+    }
+    if (etiqueta == EtiquetaTramite.PaseAEstudio || etiqueta == EtiquetaTramite.Despacho)
+    {
+        this.Estado = EstadoExpediente.ParaResolver;
+    }
+    if (etiqueta == EtiquetaTramite.Resolucion)
+    {
+        this.Estado = EstadoExpediente.ConResolucion;
+    }
+    if (etiqueta == EtiquetaTramite.Notificacion)
+    {
+        this.Estado = EstadoExpediente.EnNotificacion;
+    }
+    if (etiqueta == EtiquetaTramite.PaseAlArchivo)
+    {
+        this.Estado = EstadoExpediente.Finalizado;
+    }
+    return (estadoActual != this.Estado);
+}
     public void CambiarEstado(EstadoExpediente estado, Guid id)
     {
         if (id == Guid.Empty) throw new DominioExcepcion("id invalido");

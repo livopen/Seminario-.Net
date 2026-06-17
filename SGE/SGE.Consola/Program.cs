@@ -2,10 +2,10 @@
 
 using SGE.Aplicacion.Tramites;
 using SGE.Aplicacion.Expedientes;
-using SGE.Aplicacion.Autorizacion;
+using SGE.Aplicacion;
 using SGE.Dominio.Tramites;
 using SGE.Dominio.Expedientes;
-using SGE.Infraestructura.Persistencia; 
+using SGE.Infraestructura; 
 using SGE.Infraestructura.Autorizacion;
 using System;
 
@@ -37,7 +37,7 @@ public class Program
             
             // Creación
             var res = altaExpediente.Ejecutar(new AgregarExpedienteRequest("Expediente de Prueba", operadorId));
-            Guid expId = res.Id;
+            Guid expId = res.IdExpediente;
             Console.WriteLine($"1. Expediente creado. ID: {expId.ToString().Substring(0,8)}... | Estado: RecienIniciado");
 
             // Agregar Trámite 1 -> Muta a ParaResolver
