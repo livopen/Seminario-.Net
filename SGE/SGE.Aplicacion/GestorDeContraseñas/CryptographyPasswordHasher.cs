@@ -26,13 +26,18 @@ public class CryptographyPasswordHasher : IPasswordHasher
 
         return sb.ToString();
     }
-
-    public bool VerifyPassword(string password, string hashedPassword)
+public bool VerifyPassword(string password, string hashedPassword)
+{
+    // Si alguna de las dos variables es nula o vacía, no coinciden.
+    if (string.IsNullOrEmpty(password) || string.IsNullOrEmpty(hashedPassword))
     {
-        // Volvemos a calcular el hash de la contraseña que viene del Login en texto plano
-        string computedHash = HashPassword(password);
-
-        // Comparamos de forma segura si los hashes coinciden (ignoring case por ser Hex)
-        return string.Equals(computedHash, hashedPassword, StringComparison.OrdinalIgnoreCase);
+        return false; 
     }
+
+    // Volvemos a calcular el hash de la contraseña ingresada
+    string computedHash = HashPassword(password);
+
+    // Comparamos de forma segura si los hashes coinciden
+    return string.Equals(computedHash, hashedPassword, StringComparison.OrdinalIgnoreCase);
+}
 }

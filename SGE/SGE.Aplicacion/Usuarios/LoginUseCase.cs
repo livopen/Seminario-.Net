@@ -28,17 +28,25 @@ public class LoginUseCase
         string correoNormalizado = request.CorreoElectronico.Trim().ToLower();
         var usuario = _usuarioRepository.ObtenerPorCorreo(correoNormalizado);
 
-        // si no existe tiramos excepcion 
-        if (usuario== null)
-        {
-            throw new CredencialesInvalidadException (" Credenciales incorrectas ");
-        }
-        // verificar el hash de la contraseña para ver si coincide con el de la base de datos
-        bool claveValida= _passwordHasher.VerifyPassword(request.contraseña,usuario.ContraseñaHash!);
-        if (!claveValida)
-        {
-            throw new CredencialesInvalidadException(" Credenciales incorrectas" );
-        }
+       // si no existe tiramos excepcion 
+    if (usuario == null)
+    {
+      throw new CredencialesInvalidadException(" Credenciales incorrectas ");
+    }
+
+// 1. Validamos que el hash realmente exista antes de llamar al hasher
+        if (string.IsNullOrEmpty(usuario.ContraseñaHash))
+    {
+         throw new CredencialesInvalidadException("El usuario existe pero no tiene un hash de contraseña registrado en la base de datos.");
+    }
+
+// verificar el hash de la contraseña para ver si coincide con el de la base de datos
+    bool claveValida = _passwordHasher.VerifyPassword(request.contraseña, usuario.ContraseñaHash);
+
+    if (!claveValida)
+    {
+        throw new CredencialesInvalidadException(" Credenciales incorrectas ");
+    }
 
         //generar el token 
     

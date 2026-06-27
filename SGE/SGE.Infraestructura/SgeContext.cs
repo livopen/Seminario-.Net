@@ -65,9 +65,7 @@ public class SgeContext : DbContext
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000001"),
                     Nombre = "Admin Inicial",
                     CorreoElectronico = "admin@sge.com",
-                    ContraseñaHash = "admin123", // Temporal, después usarán hash real
-                    EsAdministrador = true
-                },
+                    ContraseñaHash = "admin123",},
                 new
                 {
                     Id = Guid.Parse("00000000-0000-0000-0000-000000000002"),

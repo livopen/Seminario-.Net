@@ -12,6 +12,10 @@ using SGE.WebApi.Endpoints;
 Console.WriteLine("Iniciando el sistema...");
 
 var builder = WebApplication.CreateBuilder(args);
+//registrar el proveedor de hash de contraseñas de forma que pueda ser inyectado en los casos de uso
+builder.Services.AddScoped<IPasswordHasher, CryptographyPasswordHasher>();
+
+
 
 // Registrar el proveedor de Tokens JWT
 builder.Services.AddScoped<ITokenService, JwtTokenProvider>();
